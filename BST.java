@@ -4,12 +4,9 @@
  *
  * @author Marcelo Mariduena
  *
- * Collaborators: Dr Ding's javaFX code was edited and utilized for visualization :)
- *
- * Resources: LIST ALL NON-COURSE RESOURCES YOU CONSULTED HERE
+ * Colaborators/Resources: Dr Ding's javaFX code was edited and utilized for visualization of the BST :)
  */
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -375,7 +372,7 @@ public class BST<K extends Comparable<? super K>, V> {
      * @return     the predecessor of key if the predecessor exists, null otherwise
      * @throws     IllegalArgumentException if key is null
      */
-    public K predecessor(K key) //FIX THIS
+    public K predecessor(K key)
     {
         if(key == null)
             throw new IllegalArgumentException();
@@ -390,21 +387,26 @@ public class BST<K extends Comparable<? super K>, V> {
     }
     private BSTNode<K, V> predecessorHelper(BSTNode<K, V> node, K key) //FIX THIS
     {
-        //      20
-        //  15      25
-
-        // input: 17
-        // output: 15
-
-        //input:    27
-        //output:   25
-
-        return null;
-
-//        return node.getLeft() == null ? node :
-//                node.getRight() == null ? node :
-//                        node.getRight().getKey().compareTo(key) > 0 ? node :
-//                            predecessorHelper(node.getRight(), key);
+        if(node.getKey().compareTo(key) < 0)
+        {
+            if(node.getRight() == null)
+                return node;
+            else if(node.getRight().getKey().compareTo(key) < 0)
+                return predecessorHelper(node.getRight(), key);
+            else if(node.getRight().getLeft() == null)
+                return node;
+            else if(node.getRight().getLeft().getKey().compareTo(key) < 0)
+                return predecessorHelper(node.getRight().getLeft(), key);
+            else
+                return node;
+        }
+        else
+        {
+            if(node.getLeft() == null)
+                return null;
+            else
+                return predecessorHelper(node.getLeft(), key);
+        }
     }
 
 
@@ -416,11 +418,11 @@ public class BST<K extends Comparable<? super K>, V> {
      * 
      * Time Complexity: O(log n)
      * 
-     * @param key  the key to find the successor for
+     * @param key  the key to find the successorreturn for
      * @return     the successor of key if the successor exists, null otherwise
      * @throws     IllegalArgumentException if key is null
      */
-    public K successor(K key) //FIX THIS
+    public K successor(K key)
     {
         if(key == null)
             throw new IllegalArgumentException();
@@ -433,55 +435,27 @@ public class BST<K extends Comparable<? super K>, V> {
                 return match.getKey();
         }
     }
-    private BSTNode<K, V> successorHelper(BSTNode<K, V> node, K key) //FIX THIS
+    private BSTNode<K, V> successorHelper(BSTNode<K, V> node, K key)
     {
         if(node.getKey().compareTo(key) > 0)
         {
-            System.out.println("Case 1: Current node is greater.");
             if(node.getLeft() == null)
-            {
-                System.out.println("Case 1.1: There is no node to the left.");
                 return node;
-            }
             else if(node.getLeft().getKey().compareTo(key) > 0)
-            {
-                System.out.println("Case 1.2: Node to left exists and is greater. Dropping to the left.");
                 return successorHelper(node.getLeft(), key);
-            }
             else if(node.getLeft().getRight() == null)
-            {
-                System.out.println("Case 1.3: Node to the left is lesser but... there is no node to the right of that one.");
                 return node;
-            }
             else if(node.getLeft().getRight().getKey().compareTo(key) > 0)
-            {
-                System.out.println("Case 1.4: Node to the right of the left child is greater than input. Dropping down there.");
                 return successorHelper(node.getLeft().getRight(), key);
-            }
             else
-            {
-                System.out.println("Case 1.5: Node to the right of the left child is less than input. Returning current node.");
                 return node;
-            }
         }
         else
         {
-            System.out.println("Case 2: Current node is lesser.");
             if(node.getRight() == null)
-            {
-                System.out.println("Case 2.1: There is not node to the right. No successor.");
                 return null;
-            }
-            else if(node.getRight().getKey().compareTo(key) < 0)
-            {
-                System.out.println("Case 2.2: Node to the right is still lesser. Going right.");
-                return successorHelper(node.getRight(), key);
-            }
             else
-            {
-                System.out.println("Case 2.3: Node to the right is greater.");
                 return successorHelper(node.getRight(), key);
-            }
         }
     }
 
@@ -506,6 +480,7 @@ public class BST<K extends Comparable<? super K>, V> {
     	
     	// Replace this line with your return statement
     	return null;
+    	/* I am still working on this :) Decided to turn in the assignment early just in case. */
     }
 
 
@@ -524,39 +499,51 @@ public class BST<K extends Comparable<? super K>, V> {
     /**
      * Used for testing purposes.
      */
-    public static void main(String[] args) //For testing purposes
-    {
-        BST tree = new BST();
-        tree.put(60, 6);
-        tree.put(20, 2);
-        tree.put(70, 7);
-        tree.put(90, 9);
-        tree.put(95, 8);
-        tree.put(10, 1);
-        tree.put(40, 4);
-        tree.put(30, 3);
-        tree.put(50, 5);
-        tree.put(100, 5);
-        tree.put(110, 5);
-        tree.put(230, 5);
-        tree.put(340, 5);
-
+//    public static void main(String[] args) //For testing purposes
+//    {
+//        BST tree = new BST();
+//        tree.put(60, 6);
+//        tree.put(20, 2);
+//        tree.put(70, 7);
+//        tree.put(90, 9);
+//        tree.put(95, 8);
+//        tree.put(10, 1);
+//        tree.put(40, 4);
+//        tree.put(30, 3);
+//        tree.put(50, 5);
+//        tree.put(100, 5);
+//        tree.put(110, 5);
+//        tree.put(230, 5);
+//        tree.put(340, 5);
+//
 //        try {
 //            System.out.printf("Using kSmallest of %d: %s\n", 7, tree.kSmallest(7));
 //        } catch (IllegalArgumentException e) {
 //            e.printStackTrace();
 //        }
-
-        System.out.println(tree.successor(25));
-        System.out.println("Input: 25. Proper output: 30\n");
-
-        System.out.println(tree.successor(91));
-        System.out.println("Input: 91. Proper output: 95\n");
-
-        System.out.println(tree.successor(5));
-        System.out.println("Input: 05. Proper output: 10\n");
-
-        System.out.println(tree.successor(89));
-        System.out.println("Input: 89. Proper output: 90\n");
-    }
+//
+//        System.out.println(tree.successor(25));
+//        System.out.println("Input: 25. Proper output: 30\n");
+//
+//        System.out.println(tree.successor(91));
+//        System.out.println("Input: 91. Proper output: 95\n");
+//
+//        System.out.println(tree.successor(5));
+//        System.out.println("Input: 05. Proper output: 10\n");
+//
+//        System.out.println(tree.successor(89));
+//        System.out.println("Input: 89. Proper output: 90\n");
+//
+//        System.out.println(tree.predecessor(32));
+//        System.out.println("Input: 32. Proper output: 30\n");
+//
+//        System.out.println(tree.predecessor(91));
+//        System.out.println("Input: 91. Proper output: 90\n");
+//
+//        System.out.println(tree.predecessor(355));
+//        System.out.println("Input: 355. Proper output: 340\n");
+//
+//        System.out.println(tree.predecessor(100));
+//        System.out.println("Input: 100. Proper output: 95\n");
+//    }
 }
